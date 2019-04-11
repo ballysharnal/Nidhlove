@@ -3,8 +3,8 @@ window.onload = () =>  {
 }
 
 let config = {
-    width: 256,
-    height: 272,
+    width: 800,
+    height: 600,
     backgroundColor: 0x000000,
     scene: [MenuLoader, Menu, LevelLoader, Level], 
     pixelArt: true
