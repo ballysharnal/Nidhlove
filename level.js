@@ -1,11 +1,11 @@
 
-class Scene2 extends Phaser.Scene {
+class Level extends Phaser.Scene {
     constructor() {
-        super('playGame'); //poulet is also possible, it's just a question of the booting first Sene
+        super('level'); 
     }
 
     create() {
-        
+        //INSERT ALL ASSETS TO SHOW HERE
         this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
         this.background.setOrigin(0,0);
 
@@ -55,6 +55,8 @@ class Scene2 extends Phaser.Scene {
         });
     }
 
+    // INSERT FUNCTIONS FOR UPDATE
+
     moveShip(ship, speed) {
         ship.y += speed;
         if (ship.y > config.height) {
@@ -73,6 +75,7 @@ class Scene2 extends Phaser.Scene {
         gameObject.play("explode");
     }
 
+    // USE YOUR FUNCTIONS HERE!
     update() {
         this.ship1.setScale(2);
         this.ship1.flipY = true;
