@@ -15,6 +15,12 @@ class LevelLoader extends Phaser.Scene {
                 frameHeight: 37
             }
         );
+        this.load.spritesheet('enemy',
+            'assets/Player2.png', {
+                frameWidth: 50,
+                frameHeight: 37
+            }
+        );
     }
     
     create() {
