@@ -80,7 +80,7 @@ class Level extends Phaser.Scene {
         this.anims.create({
             key: 'space',
             frames : this.anims.generateFrameNumbers('player1', {start: 88 , end: 94 }),
-
+        });
         // Character 2 Anims
         this.anims.create({
             key: 'A',
@@ -128,27 +128,15 @@ class Level extends Phaser.Scene {
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
 
+        this.anims.create({
+            key: 'space2',
+            frames : this.anims.generateFrameNumbers('player2', {start: 88 , end: 94 }),
+        });
 
-        this.physics.add.collider(this.bow, this.platforms);
-
-        this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
-        function collectStar (player, star){
-
-        this.physics.add.overlap(this.player1,   this.bow, collectStar, null, this);
-        this.physics.add.overlap(this.player2, this.bow, collectStar, null, this);
-       // this.physics.arcade.overlap(this.player1, this.player2, this.damageTaken());
-        function collectStar (player1, star){
-            star.disableBody(true, true);
-        }
-
-        function collectStar (player2, star){
-
-            star.disableBody(true, true);
-        }
         
-
-
     }
+
+    
     
         
 
@@ -202,9 +190,9 @@ class Level extends Phaser.Scene {
 
         
 
-        if (this.cursors.space.isDown) {
-            this.physics.collide(this.player, this.player2, this.damageTaken, null, this)
-            this.player.anims.play('space', true)
+        if (this.playerOneUpdate.space.isDown) {
+            this.physics.collide(this.player1, this.player2, this.damageTaken, null, this)
+            this.player1.anims.play('space', true)
         }
         
 
@@ -213,15 +201,12 @@ class Level extends Phaser.Scene {
         //var keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
 
         this.playerTwoUpdate = this.input.keyboard.createCursorKeys();
+     
+        this.input.keyboard.on('keydown_Q', () => {
+        this.player2.setVelocityX(-160);
 
-        
-        
-        
-            this.input.keyboard.on('keydown_Q', () => {
-            this.player2.setVelocityX(-160);
-    
-            this.player2.anims.play('A', true);
-            this.player2.flipX = true;
+        this.player2.anims.play('A', true);
+        this.player2.flipX = true;
         });
 
         this.input.keyboard.on('keydown_D', () => {
@@ -244,7 +229,10 @@ class Level extends Phaser.Scene {
                 this.player2.anims.play('z', true);
             }   
         })
-
+        this.input.keyboard.on('keydown_R', () => {
+            this.physics.collide(this.player1, this.player2, this.damageTaken2, null, this)
+            this.player2.anims.play('space2', true);
+        }) 
         //KeyUp
 
         this.input.keyboard.on('keyup_Q', () => {
@@ -261,7 +249,13 @@ class Level extends Phaser.Scene {
             this.player2.setVelocityX(0);
             this.player2.anims.play('turn2');    
         })
-      
+        
+        this.input.keyboard.on('keyup_R', () => {
+            
+            this.player2.anims.play('turn2', true)
+        }) 
+            
+        
         //Collision entre les deux joueurs
 
         //this.game.physics.arcade.collide(this.player1, this.player2, this.damageTaken);
@@ -271,6 +265,13 @@ class Level extends Phaser.Scene {
     damageTaken() {
         this.player2.health -= 1;
         console.log(this.player2.health);
+        this.player2.body.reset(100,100);
     }
-};
 
+    damageTaken2() {
+        this.player1.health -= 1;
+        console.log(this.player1.health);
+        this.player1.body.reset(100,100);
+    }
+
+}
