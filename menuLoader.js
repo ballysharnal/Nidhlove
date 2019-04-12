@@ -3,11 +3,12 @@ class MenuLoader extends Phaser.Scene {
         super('menuLoader'); 
     }
     preload() {
-        this.load.image("background", "assets/background.png");
-        this.load.image("buttonStart", "assets/buttonStart.jpg")
+        this.load.image("titleBackground", "assets/titleBackground.png");
+        this.load.image("heart", "assets/heart.png");
+        this.load.image("buttonStart", "assets/buttonStart.png");
     }
     create() {
-        this.add.text(20, 20, "TITLE HERE");
+
         this.scene.start("menu");
     }
 
