@@ -44,7 +44,7 @@ class Level extends Phaser.Scene {
         this.player2.setCollideWorldBounds(true);
         this.player2.body.setGravityY(1200);
         this.player2.health = 10;
-
+        this.physics.add.collider(this.player, this.player2, this.damageTaken());
         // Character Anims
         this.anims.create({
             key: 'left',
@@ -87,7 +87,6 @@ class Level extends Phaser.Scene {
 
         this.physics.add.collider(this.bow, this.platforms);
         this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
-       // this.physics.arcade.overlap(this.player, this.player2, this.damageTaken());
         function collectStar (player, star){
             star.disableBody(true, true);
         }
@@ -139,13 +138,16 @@ class Level extends Phaser.Scene {
         }
 
         //Collision entre les deux joueurs
-
+        
         //this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
+        
     }
 
     damageTaken() {
-        this.player2.health -= 1;
+        this.player2.health = this.player2.health - 1;
         console.log(this.player2.health);
     }
+
+
 };
 
