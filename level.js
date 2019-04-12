@@ -5,6 +5,9 @@ class Level extends Phaser.Scene {
     }
 
     create() {
+
+        
+
         //INSERT ALL ASSETS TO SHOW HERE
       
         this.add.image(-550, -350, 'BG').setOrigin(0,0)
@@ -21,17 +24,17 @@ class Level extends Phaser.Scene {
         this.platforms.create(715, 568, 'ground').setScale(1.5).refreshBody();
         this.platforms.create(750, 420, 'ground');
 
-        // Character sprites & physics
-        this.player = this.physics.add.sprite(100, 450, 'player1');
-        this.physics.add.collider(this.player, this.platforms);
+        // Character sprites & physics 1
+        this.player1 = this.physics.add.sprite(100, 450, 'player1');
+        this.physics.add.collider(this.player1, this.platforms);
 
-        this.player.setScale(2);
-        this.player.body.setSize(17, 37);
-        this.player.body.setOffset(15, -1);
-        this.player.setBounce(0);
-        this.player.setCollideWorldBounds(true);
-        this.player.body.setGravityY(1200);
-        this.player.health = 10;
+        this.player1.setScale(2);
+        this.player1.body.setSize(17, 37);
+        this.player1.body.setOffset(15, -1);
+        this.player1.setBounce(0);
+        this.player1.setCollideWorldBounds(true);
+        this.player1.body.setGravityY(1200);
+        this.player1.health = 10;
         //Character sprites & physics player 2
 
         this.player2 = this.physics.add.sprite(200, 450, 'player2');
@@ -45,7 +48,7 @@ class Level extends Phaser.Scene {
         this.player2.body.setGravityY(1200);
         this.player2.health = 10;
 
-        // Character Anims
+        // Character 1 Anims
         this.anims.create({
             key: 'left',
             frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
@@ -73,6 +76,41 @@ class Level extends Phaser.Scene {
             repeat: -1
         });
 
+        // Character 2 Anims
+        this.anims.create({
+            key: 'A',
+            frames: this.anims.generateFrameNumbers('player2', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'turn2',
+            frames: [{ key: 'player2', frame: 0 }],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'd',
+            frames: this.anims.generateFrameNumbers('player2', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 's',
+            frames: [{ key: 'player2', frame: 4 }],
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'z',
+            frames: [{ key: 'player2', frame: 0 }],
+            frameRate: 10,
+            repeat: -1
+        });
+
         this.bow = this.physics.add.group({
             key: 'bow',
             repeat: 5,
@@ -80,15 +118,20 @@ class Level extends Phaser.Scene {
         });
 
         this.bow.children.iterate(function (child) {
-    
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.5));
-        
+
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
         });
 
+
         this.physics.add.collider(this.bow, this.platforms);
-        this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
-       // this.physics.arcade.overlap(this.player, this.player2, this.damageTaken());
-        function collectStar (player, star){
+        this.physics.add.overlap(this.player1,   this.bow, collectStar, null, this);
+        this.physics.add.overlap(this.player2, this.bow, collectStar, null, this);
+       // this.physics.arcade.overlap(this.player1, this.player2, this.damageTaken());
+        function collectStar (player1, star){
+            star.disableBody(true, true);
+        }
+
+        function collectStar (player2, star){
             star.disableBody(true, true);
         }
 
@@ -106,44 +149,109 @@ class Level extends Phaser.Scene {
     update() {
         
 
-
-        this.cursors = this.input.keyboard.createCursorKeys();
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-160);
+        // Character1 UpdateAnimation
+        this.playerOneUpdate = this.input.keyboard.createCursorKeys();
+        if (this.playerOneUpdate.left.isDown) {
+            this.player1.setVelocityX(-160);
     
-            this.player.anims.play('left', true);
-            this.player.flipX = true;
+            this.player1.anims.play('left', true);
+            this.player1.flipX = true;
         }
-        else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
+        else if (this.playerOneUpdate.right.isDown) {
+            this.player1.setVelocityX(160);
     
-            this.player.anims.play('right', true);
-            this.player.flipX = false;
+            this.player1.anims.play('right', true);
+            this.player1.flipX = false;
         }
-        else if (this.cursors.down.isDown) {
-            this.player.setVelocityX(0);
+        else if (this.playerOneUpdate.down.isDown) {
+            this.player1.setVelocityX(0);
     
-            this.player.anims.play('down', true);
+            this.player1.anims.play('down', true);
         }
 
         else {
-            this.player.setVelocityX(0);
+            this.player1.setVelocityX(0);
     
-            this.player.anims.play('turn');
+            this.player1.anims.play('turn');
         }
 
-        if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-630);
+        if (this.playerOneUpdate.up.isDown && this.player1.body.touching.down) {
+            this.player1.setVelocityY(-630);
         }
-        else if (this.cursors.down.isDown && !this.player.body.touching.down) {
-            this.player.setVelocityY(1200);
-            this.player.anims.play('down');
+        else if (this.playerOneUpdate.down.isDown && !this.player1.body.touching.down) {
+            this.player1.setVelocityY(1200);
+            this.player1.anims.play('down');
         }
+
+        // Character2 UpdateAnimation
+        //var keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
+
+        this.playerTwoUpdate = this.input.keyboard.createCursorKeys();
+
+        
+        
+        
+            this.input.keyboard.on('keydown_Q', () => {
+            this.player2.setVelocityX(-160);
+    
+            this.player2.anims.play('A', true);
+            this.player2.flipX = true;
+        });
+
+        this.input.keyboard.on('keydown_D', () => {
+            this.player2.setVelocityX(160);
+    
+            this.player2.anims.play('d', true);
+            this.player2.flipX = false;
+            
+        })       
+
+        this.input.keyboard.on('keydown_S', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('s', true);
+            this.player2.setVelocityY(1200);
+            this.player2.anims.play('down');
+        })
+        this.input.keyboard.on('keydown_Z', () => {
+
+            if (this.player2.body.touching.down) {
+                this.player2.setVelocityY(-630);
+                this.player2.anims.play('z', true);
+            }
+            
+        
+        })
+
+        //KeyUp
+
+        this.input.keyboard.on('keyup_Q', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');     
+        });
+
+        this.input.keyboard.on('keyup_D', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');
+        })       
+
+        this.input.keyboard.on('keyup_S', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');    
+        })
+       
+        
+        
+
+
+        
+
+        
 
         //Collision entre les deux joueurs
 
-        //this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
+        //this.game.physics.arcade.collide(this.player1, this.player2, this.damageTaken);
     }
+    // KEY TEST 
 
     damageTaken() {
         this.player2.health -= 1;
