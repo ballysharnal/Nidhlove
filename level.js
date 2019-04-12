@@ -47,6 +47,7 @@ class Level extends Phaser.Scene {
         this.player2.setCollideWorldBounds(true);
         this.player2.body.setGravityY(1200);
         this.player2.health = 10;
+        
 
         // Character 1 Anims
         this.anims.create({
@@ -75,6 +76,10 @@ class Level extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
+
+        this.anims.create({
+            key: 'space',
+            frames : this.anims.generateFrameNumbers('player1', {start: 88 , end: 94 }),
 
         // Character 2 Anims
         this.anims.create({
@@ -107,6 +112,7 @@ class Level extends Phaser.Scene {
         this.anims.create({
             key: 'z',
             frames: [{ key: 'player2', frame: 0 }],
+
             frameRate: 10,
             repeat: -1
         });
@@ -124,6 +130,10 @@ class Level extends Phaser.Scene {
 
 
         this.physics.add.collider(this.bow, this.platforms);
+
+        this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
+        function collectStar (player, star){
+
         this.physics.add.overlap(this.player1,   this.bow, collectStar, null, this);
         this.physics.add.overlap(this.player2, this.bow, collectStar, null, this);
        // this.physics.arcade.overlap(this.player1, this.player2, this.damageTaken());
@@ -132,8 +142,11 @@ class Level extends Phaser.Scene {
         }
 
         function collectStar (player2, star){
+
             star.disableBody(true, true);
         }
+        
+
 
     }
     
@@ -143,11 +156,14 @@ class Level extends Phaser.Scene {
 
     // INSERT FUNCTIONS FOR UPDATE
 
+    
   
 
     // USE YOUR FUNCTIONS HERE!
     update() {
         
+        
+
 
         // Character1 UpdateAnimation
         this.playerOneUpdate = this.input.keyboard.createCursorKeys();
@@ -182,6 +198,16 @@ class Level extends Phaser.Scene {
             this.player1.setVelocityY(1200);
             this.player1.anims.play('down');
         }
+
+
+        
+
+        if (this.cursors.space.isDown) {
+            this.physics.collide(this.player, this.player2, this.damageTaken, null, this)
+            this.player.anims.play('space', true)
+        }
+        
+
 
         // Character2 UpdateAnimation
         //var keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
