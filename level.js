@@ -1,4 +1,3 @@
-
 class Level extends Phaser.Scene {
     constructor() {
         super('level'); 
@@ -39,7 +38,7 @@ class Level extends Phaser.Scene {
 
         this.player2 = this.physics.add.sprite(200, 450, 'player2');
         this.physics.add.collider(this.player2, this.platforms);
-
+        this.physics.add.collider(this.player, this.player2, this.damageTaken, null, this);
         this.player2.setScale(2);
         this.player2.body.setSize(17, 37);
         this.player2.body.setOffset(15, -1);
@@ -256,6 +255,8 @@ class Level extends Phaser.Scene {
     damageTaken() {
         this.player2.health -= 1;
         console.log(this.player2.health);
+        if (this.player2.health <= 0) {
+            this.player2.body.reset(600,100);
+        }
     }
 };
-
