@@ -34,7 +34,7 @@ class Level extends Phaser.Scene {
         // Character Anims
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 8, end: 13 }),
             frameRate: 10,
             repeat: -1
         });
@@ -85,7 +85,6 @@ class Level extends Phaser.Scene {
 
     // INSERT FUNCTIONS FOR UPDATE
 
-  
 
     // USE YOUR FUNCTIONS HERE!
     update() {
@@ -95,12 +94,12 @@ class Level extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
-    
+            this.player.flipX = true;
             this.player.anims.play('left', true);
         }
         else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
-    
+            this.player.flipX = false;
             this.player.anims.play('right', true);
         }
         else if (this.cursors.down.isDown) {
