@@ -25,16 +25,30 @@ class Level extends Phaser.Scene {
         this.player = this.physics.add.sprite(100, 450, 'dude');
         this.physics.add.collider(this.player, this.platforms);
 
-        this.player.setScale(2)
+        this.player.setScale(2);
         this.player.body.setSize(17, 37);
-        this.player.body.setOffset(15, -1)
+        this.player.body.setOffset(15, -1);
         this.player.setBounce(0);
         this.player.setCollideWorldBounds(true);
-        this.player.body.setGravityY(1200)
+        this.player.body.setGravityY(1200);
+        this.player.health = 10;
+        //Character sprites & physics player 2
+
+        this.player2 = this.physics.add.sprite(200, 450, 'enemy');
+        this.physics.add.collider(this.player2, this.platforms);
+
+        this.player2.setScale(2);
+        this.player2.body.setSize(17, 37);
+        this.player2.body.setOffset(15, -1);
+        this.player2.setBounce(0);
+        this.player2.setCollideWorldBounds(true);
+        this.player2.body.setGravityY(1200);
+        this.player2.health = 10;
+
         // Character Anims
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 8, end: 13 }),
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
@@ -73,6 +87,7 @@ class Level extends Phaser.Scene {
 
         this.physics.add.collider(this.bow, this.platforms);
         this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
+       // this.physics.arcade.overlap(this.player, this.player2, this.damageTaken());
         function collectStar (player, star){
             star.disableBody(true, true);
         }
@@ -85,6 +100,7 @@ class Level extends Phaser.Scene {
 
     // INSERT FUNCTIONS FOR UPDATE
 
+  
 
     // USE YOUR FUNCTIONS HERE!
     update() {
@@ -94,12 +110,12 @@ class Level extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
-            this.player.flipX = true;
+    
             this.player.anims.play('left', true);
         }
         else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
-            this.player.flipX = false;
+    
             this.player.anims.play('right', true);
         }
         else if (this.cursors.down.isDown) {
@@ -121,7 +137,15 @@ class Level extends Phaser.Scene {
             this.player.setVelocityY(1200);
             this.player.anims.play('down');
         }
+
+        //Collision entre les deux joueurs
+
+        //this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
     }
 
+    damageTaken() {
+        this.player2.health -= 1;
+        console.log(this.player2.health);
+    }
+};
 
-}
