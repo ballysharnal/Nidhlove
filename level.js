@@ -1,3 +1,4 @@
+
 class Level extends Phaser.Scene {
     constructor() {
         super('level'); 
@@ -38,7 +39,7 @@ class Level extends Phaser.Scene {
 
         this.player2 = this.physics.add.sprite(200, 450, 'player2');
         this.physics.add.collider(this.player2, this.platforms);
-        this.physics.add.collider(this.player, this.player2, this.damageTaken, null, this);
+
         this.player2.setScale(2);
         this.player2.body.setSize(17, 37);
         this.player2.body.setOffset(15, -1);
@@ -209,16 +210,13 @@ class Level extends Phaser.Scene {
             this.player2.setVelocityX(0);
             this.player2.anims.play('s', true);
             this.player2.setVelocityY(1200);
-            this.player2.anims.play('down');
         })
         this.input.keyboard.on('keydown_Z', () => {
 
             if (this.player2.body.touching.down) {
                 this.player2.setVelocityY(-630);
                 this.player2.anims.play('z', true);
-            }
-            
-        
+            }   
         })
 
         //KeyUp
@@ -237,15 +235,7 @@ class Level extends Phaser.Scene {
             this.player2.setVelocityX(0);
             this.player2.anims.play('turn2');    
         })
-       
-        
-        
-
-
-        
-
-        
-
+      
         //Collision entre les deux joueurs
 
         //this.game.physics.arcade.collide(this.player1, this.player2, this.damageTaken);
@@ -255,8 +245,6 @@ class Level extends Phaser.Scene {
     damageTaken() {
         this.player2.health -= 1;
         console.log(this.player2.health);
-        if (this.player2.health <= 0) {
-            this.player2.body.reset(600,100);
-        }
     }
 };
+
