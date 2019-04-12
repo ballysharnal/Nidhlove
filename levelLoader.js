@@ -9,13 +9,13 @@ class LevelLoader extends Phaser.Scene {
         this.load.image('sol', 'assets/sol.png')
         this.load.image('assRight', 'assets/assRight.png')
         this.load.image('bow', 'assets/bow.png')
-        this.load.spritesheet('dude',
+        this.load.spritesheet('player1',
             'assets/Player1.png', {
                 frameWidth: 50,
                 frameHeight: 37
             }
         );
-        this.load.spritesheet('enemy',
+        this.load.spritesheet('player2',
             'assets/Player2.png', {
                 frameWidth: 50,
                 frameHeight: 37

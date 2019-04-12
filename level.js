@@ -22,7 +22,7 @@ class Level extends Phaser.Scene {
         this.platforms.create(750, 420, 'ground');
 
         // Character sprites & physics
-        this.player = this.physics.add.sprite(100, 450, 'dude');
+        this.player = this.physics.add.sprite(100, 450, 'player1');
         this.physics.add.collider(this.player, this.platforms);
 
         this.player.setScale(2);
@@ -34,7 +34,7 @@ class Level extends Phaser.Scene {
         this.player.health = 10;
         //Character sprites & physics player 2
 
-        this.player2 = this.physics.add.sprite(200, 450, 'enemy');
+        this.player2 = this.physics.add.sprite(200, 450, 'player2');
         this.physics.add.collider(this.player2, this.platforms);
 
         this.player2.setScale(2);
@@ -48,27 +48,27 @@ class Level extends Phaser.Scene {
         // Character Anims
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'turn',
-            frames: [{ key: 'dude', frame: 0 }],
+            frames: [{ key: 'player1', frame: 0 }],
             frameRate: 20
         });
 
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', { start: 8, end: 13 }),
+            frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'down',
-            frames: [{ key: 'dude', frame: 4 }],
+            frames: [{ key: 'player1', frame: 4 }],
             frameRate: 10,
             repeat: -1
         });
@@ -112,11 +112,13 @@ class Level extends Phaser.Scene {
             this.player.setVelocityX(-160);
     
             this.player.anims.play('left', true);
+            this.player.flipX = true;
         }
         else if (this.cursors.right.isDown) {
             this.player.setVelocityX(160);
     
             this.player.anims.play('right', true);
+            this.player.flipX = false;
         }
         else if (this.cursors.down.isDown) {
             this.player.setVelocityX(0);
