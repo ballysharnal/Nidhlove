@@ -6,83 +6,122 @@ class Level extends Phaser.Scene {
 
     create() {
         //INSERT ALL ASSETS TO SHOW HERE
-        this.background = this.add.tileSprite(0,0, config.width, config.height, "background");
-        this.background.setOrigin(0,0);
+      
+        this.add.image(-550, -350, 'BG').setOrigin(0,0)
+        this.platforms = this.physics.add.staticGroup();
 
-        this.ship1 = this.add.sprite(config.width/2 - 50, config.height/2, "ship");
-        this.ship2 = this.add.sprite(config.width/2, config.height/2, "ship2");
-        this.ship3 = this.add.sprite(config.width/2 + 50, config.height/2, "ship3");
+        this.platforms.create(175, 623, 'sol');
+        this.platforms.create(47, 623, 'sol');
+        this.platforms.create(400, 623, 'sol');
+        this.platforms.create(300, 623, 'sol');
+        this.platforms.create(500, 623, 'sol');
+        this.platforms.create(570, 623, 'sol');
+        this.platforms.create(50, 550, 'assRight');
+        this.platforms.create(50, 550, 'bow');
+        this.platforms.create(715, 568, 'ground').setScale(1.5).refreshBody();
+        this.platforms.create(750, 420, 'ground');
 
+        // Character sprites & physics
+        this.player = this.physics.add.sprite(100, 450, 'dude');
+        this.physics.add.collider(this.player, this.platforms);
+
+        this.player.setScale(2)
+        this.player.body.setSize(17, 37);
+        this.player.body.setOffset(15, -1)
+        this.player.setBounce(0);
+        this.player.setCollideWorldBounds(true);
+        this.player.body.setGravityY(1200)
+        // Character Anims
         this.anims.create({
-            key: "ship1_anim",
-            frames: this.anims.generateFrameNumbers("ship"),
-            frameRate: 20,
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+            frameRate: 10,
             repeat: -1
         });
+
         this.anims.create({
-            key: "ship2_anim",
-            frames: this.anims.generateFrameNumbers("ship2"),
-            frameRate: 20,
+            key: 'turn',
+            frames: [{ key: 'dude', frame: 0 }],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('dude', { start: 8, end: 13 }),
+            frameRate: 10,
             repeat: -1
         });
+
         this.anims.create({
-            key: "ship3_anim",
-            frames: this.anims.generateFrameNumbers("ship3"),
-            frameRate: 20,
+            key: 'down',
+            frames: [{ key: 'dude', frame: 4 }],
+            frameRate: 10,
             repeat: -1
         });
-        this.anims.create({
-            key: "explode",
-            frames: this.anims.generateFrameNumbers("explosion"),
-            frameRate: 20,
-            repeat: 0,
-            hideOnComplete: true
+
+        this.bow = this.physics.add.group({
+            key: 'bow',
+            repeat: 5,
+            setXY: { x: 1, y: -50, stepX: 150 }
         });
 
-        this.ship1.play("ship1_anim");
-        this.ship2.play("ship2_anim");
-        this.ship3.play("ship3_anim");
-
-        this.ship1.setInteractive();
-        this.ship2.setInteractive();
-        this.ship3.setInteractive();
-
-        this.input.on('gameobjectdown', this.destroyShip, this);
-
-        this.add.text(20,20, "Playing game", {
-            font: "25px Arial", 
-            fill: "yellow"
+        this.bow.children.iterate(function (child) {
+    
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.5));
+        
         });
+
+        this.physics.add.collider(this.bow, this.platforms);
+        this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
+        function collectStar (player, star){
+            star.disableBody(true, true);
+        }
+
     }
+    
+        
+
+    
 
     // INSERT FUNCTIONS FOR UPDATE
 
-    moveShip(ship, speed) {
-        ship.y += speed;
-        if (ship.y > config.height) {
-            this.resetShipPos(ship);
-        }
-    }
-
-    resetShipPos(ship) {
-        ship.y = 0;
-        let randomX = Phaser.Math.Between(0, config.width);
-        ship.x = randomX;
-    }
-
-    destroyShip(pointer, gameObject) {
-        gameObject.setTexture("explosion");
-        gameObject.play("explode");
-    }
+  
 
     // USE YOUR FUNCTIONS HERE!
     update() {
-        this.ship1.setScale(2);
-        this.ship1.flipY = true;
-        this.ship2.angle += 3;
-        this.moveShip(this.ship3, 1);
-        this.background.tilePositionY -= 0.5;
         
+
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-160);
+    
+            this.player.anims.play('left', true);
+        }
+        else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(160);
+    
+            this.player.anims.play('right', true);
+        }
+        else if (this.cursors.down.isDown) {
+            this.player.setVelocityX(0);
+    
+            this.player.anims.play('down', true);
+        }
+
+        else {
+            this.player.setVelocityX(0);
+    
+            this.player.anims.play('turn');
+        }
+
+        if (this.cursors.up.isDown && this.player.body.touching.down) {
+            this.player.setVelocityY(-630);
+        }
+        else if (this.cursors.down.isDown && !this.player.body.touching.down) {
+            this.player.setVelocityY(1200);
+            this.player.anims.play('down');
+        }
     }
 
 
