@@ -35,7 +35,7 @@ class Level extends Phaser.Scene {
 
         this.player2 = this.physics.add.sprite(200, 450, 'player2');
         this.physics.add.collider(this.player2, this.platforms);
-        this.physics.add.collider(this.player, this.player2, this.damageTaken, null, this);
+        
         this.player2.setScale(2);
         this.player2.body.setSize(17, 37);
         this.player2.body.setOffset(15, -1);
@@ -43,6 +43,7 @@ class Level extends Phaser.Scene {
         this.player2.setCollideWorldBounds(true);
         this.player2.body.setGravityY(1200);
         this.player2.health = 10;
+        
 
         // Character Anims
         this.anims.create({
@@ -72,6 +73,13 @@ class Level extends Phaser.Scene {
             repeat: -1
         });
 
+        this.anims.create({
+            key: 'space',
+            frames : this.anims.generateFrameNumbers('player1', {start: 88 , end: 94 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
         this.bow = this.physics.add.group({
             key: 'bow',
             repeat: 5,
@@ -86,10 +94,11 @@ class Level extends Phaser.Scene {
 
         this.physics.add.collider(this.bow, this.platforms);
         this.physics.add.overlap(this.player, this.bow, collectStar, null, this);
-       // this.physics.arcade.overlap(this.player, this.player2, this.damageTaken());
         function collectStar (player, star){
             star.disableBody(true, true);
         }
+        
+
 
     }
     
@@ -99,11 +108,14 @@ class Level extends Phaser.Scene {
 
     // INSERT FUNCTIONS FOR UPDATE
 
+    
   
 
     // USE YOUR FUNCTIONS HERE!
     update() {
         
+        
+
 
 
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -139,6 +151,15 @@ class Level extends Phaser.Scene {
             this.player.anims.play('down');
         }
 
+        
+
+        if (this.cursors.space.isDown) {
+            this.physics.collide(this.player, this.player2, this.damageTaken, null, this)
+            this.player.anims.play('space', true)
+        }
+        
+
+        
         //Collision entre les deux joueurs
 
         //this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
