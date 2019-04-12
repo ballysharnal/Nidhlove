@@ -143,7 +143,7 @@ class Level extends Phaser.Scene {
 
         //this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
     }
-
+    
     damageTaken() {
         this.player2.health -= 1;
         console.log(this.player2.health);
