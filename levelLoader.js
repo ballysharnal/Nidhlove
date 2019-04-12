@@ -3,24 +3,20 @@ class LevelLoader extends Phaser.Scene {
         super('levelLoader'); 
     }
     preload() {
-        this.load.image("background", "assets/background.png");
-        this.load.spritesheet("ship", "spritesheets/ship.png", {
-            frameWidth: 16,
-            frameHeight: 16
-        });
-        this.load.spritesheet("ship2", "spritesheets/ship2.png", {
-            frameWidth: 32,
-            frameHeight: 16
-        });
-        this.load.spritesheet("ship3", "spritesheets/ship3.png", {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.spritesheet("explosion", "spritesheets/explosion.png", {
-            frameWidth: 16,
-            frameHeight: 16
-        });
+
+        this.load.image('BG', 'assets/BG.png');
+        this.load.image('ground', 'assets/rock.png')
+        this.load.image('sol', 'assets/sol.png')
+        this.load.image('assRight', 'assets/assRight.png')
+        this.load.image('bow', 'assets/bow.png')
+        this.load.spritesheet('dude',
+            'assets/Player1.png', {
+                frameWidth: 50,
+                frameHeight: 37
+            }
+        );
     }
+    
     create() {
         this.add.text(20, 20, "TITLE HERE");
         this.scene.start("level");
