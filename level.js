@@ -80,29 +80,29 @@ class Level extends Phaser.Scene {
 		this.background4 = this.add.tileSprite(100, 455, config.width * 5, config.height * 2, "foret1")
 
 
-		// Character sprites & physics
-		this.player = this.physics.add.sprite(100, 450, 'player1');
-		this.physics.add.collider(this.player, this.platforms);
+	// Character sprites & physics 1
+        this.player1 = this.physics.add.sprite(100, 450, 'player1');
+        this.physics.add.collider(this.player1, this.platforms);
 
-		this.player.setScale(2);
-		this.player.body.setSize(17, 37);
-		this.player.body.setOffset(15, -1);
-		this.player.setBounce(0);
-		this.player.setCollideWorldBounds(true);
-		this.player.body.setGravityY(1200);
-		this.player.health = 10;
-		//Character sprites & physics player 2
+        this.player1.setScale(2);
+        this.player1.body.setSize(17, 37);
+        this.player1.body.setOffset(15, -1);
+        this.player1.setBounce(0);
+        this.player1.setCollideWorldBounds(true);
+        this.player1.body.setGravityY(1200);
+        this.player1.health = 10;
+        //Character sprites & physics player 2
 
-		this.player2 = this.physics.add.sprite(200, 450, 'player2');
-		this.physics.add.collider(this.player2, this.platforms);
+        this.player2 = this.physics.add.sprite(200, 450, 'player2');
+        this.physics.add.collider(this.player2, this.platforms);
 
-		this.player2.setScale(2);
-		this.player2.body.setSize(17, 37);
-		this.player2.body.setOffset(15, -1);
-		this.player2.setBounce(0);
-		this.player2.setCollideWorldBounds(true);
-		this.player2.body.setGravityY(1200);
-		this.player2.health = 10;
+        this.player2.setScale(2);
+        this.player2.body.setSize(17, 37);
+        this.player2.body.setOffset(15, -1);
+        this.player2.setBounce(0);
+        this.player2.setCollideWorldBounds(true);
+        this.player2.body.setGravityY(1200);
+        this.player2.health = 10;
 
 		this.background4 = this.add.tileSprite(100, 455, config.width * 5, config.height * 2, "rayons")
 		this.background3 = this.add.tileSprite(100, 455, config.width * 5, config.height * 2, "foret")
@@ -110,38 +110,86 @@ class Level extends Phaser.Scene {
 		this.background5 = this.add.tileSprite(100, 455, config.width * 5, config.height * 2, "foret2")
 		this.background6 = this.add.tileSprite(100, 450, config.width * 5, config.height * 2, "sol1")
 
-		// Character Anims
-		this.anims.create({
-			key: 'left',
-			frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
-			frameRate: 10,
-			repeat: -1
-		});
+	// Character 1 Anims
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: 'turn',
-			frames: [{ key: 'player1', frame: 0 }],
-			frameRate: 20
-		});
+        this.anims.create({
+            key: 'turn',
+            frames: [{ key: 'player1', frame: 0 }],
+            frameRate: 20
+        });
 
-		this.anims.create({
-			key: 'right',
-			frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
-			frameRate: 10,
-			repeat: -1
-		});
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('player1', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
-		this.anims.create({
-			key: 'down',
-			frames: [{ key: 'player1', frame: 4 }],
-			frameRate: 10,
-			repeat: -1
-		});
+        this.anims.create({
+            key: 'down',
+            frames: [{ key: 'player1', frame: 4 }],
+            frameRate: 10,
+            repeat: -1
+        });
 
-		
+        this.anims.create({
+            key: 'space',
+            frames : this.anims.generateFrameNumbers('player1', {start: 88 , end: 94 }),
+        });
+        // Character 2 Anims
+        this.anims.create({
+            key: 'A',
+            frames: this.anims.generateFrameNumbers('player2', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
 
-	
-	
+        this.anims.create({
+            key: 'turn2',
+            frames: [{ key: 'player2', frame: 0 }],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'd',
+            frames: this.anims.generateFrameNumbers('player2', { start: 8, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 's',
+            frames: [{ key: 'player2', frame: 4 }],
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'z',
+            frames: [{ key: 'player2', frame: 0 }],
+
+            frameRate: 10,
+            repeat: -1
+        });
+    
+        this.anims.create({
+                key: 'space2',
+                frames : this.anims.generateFrameNumbers('player2', {start: 88 , end: 94 }),
+            });
+
+
+        }
+
+
+    
+    
+    
 
 		this.cameras.main.setBounds(-500, 0, 1920 * 2, 1080 * 2);
     this.physics.world.setBounds(-500, 0, 1920, 1080 * 2);
@@ -167,47 +215,123 @@ class Level extends Phaser.Scene {
 	// USE YOUR FUNCTIONS HERE!
 	update() {
 
-		this.cursors = this.input.keyboard.createCursorKeys();
+		 // Character1 UpdateAnimation
+        this.playerOneUpdate = this.input.keyboard.createCursorKeys();
+        if (this.playerOneUpdate.left.isDown) {
+            this.player1.setVelocityX(-160);
+    
+            this.player1.anims.play('left', true);
+            this.player1.flipX = true;
+        }
+        else if (this.playerOneUpdate.right.isDown) {
+            this.player1.setVelocityX(160);
+    
+            this.player1.anims.play('right', true);
+            this.player1.flipX = false;
+        }
+        else if (this.playerOneUpdate.down.isDown) {
+            this.player1.setVelocityX(0);
+    
+            this.player1.anims.play('down', true);
+        }
 
-		if (this.cursors.left.isDown) {
-			this.player.setVelocityX(-160);
+        else {
+            this.player1.setVelocityX(0);
+    
+            this.player1.anims.play('turn');
+        }
 
-			this.player.anims.play('left', true);
-			this.player.flipX = true;
-		}
-		else if (this.cursors.right.isDown) {
-			this.player.setVelocityX(160);
+        if (this.playerOneUpdate.up.isDown && this.player1.body.touching.down) {
+            this.player1.setVelocityY(-630);
+        }
+        else if (this.playerOneUpdate.down.isDown && !this.player1.body.touching.down) {
+            this.player1.setVelocityY(1200);
+            this.player1.anims.play('down');
+        }
 
-			this.player.anims.play('right', true);
-			this.player.flipX = false;
-		}
-		else if (this.cursors.down.isDown) {
-			this.player.setVelocityX(0);
 
-			this.player.anims.play('down', true);
-		}
+        
 
-		else {
-				this.player.setVelocityX(0);
+        if (this.playerOneUpdate.space.isDown) {
+            this.physics.collide(this.player1, this.player2, this.damageTaken, null, this)
+            this.player1.anims.play('space', true)
+        }
+        
 
-				this.player.anims.play('turn');
-		}
 
-		if (this.cursors.up.isDown && this.player.body.touching.down) {
-			this.player.setVelocityY(-630);
-		}
-		else if (this.cursors.down.isDown && !this.player.body.touching.down) {
-			this.player.setVelocityY(1200);
-			this.player.anims.play('down');
-		}
-		
-		//Collision entre les deux joueurs
+        // Character2 UpdateAnimation
+        //var keyQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q)
 
-		//this.game.physics.arcade.collide(this.player, this.player2, this.damageTaken);
-	}
+        this.playerTwoUpdate = this.input.keyboard.createCursorKeys();
+     
+        this.input.keyboard.on('keydown_Q', () => {
+        this.player2.setVelocityX(-160);
 
-	damageTaken() {
-		this.player2.health -= 1;
-		console.log(this.player2.health);
-	}
-}
+        this.player2.anims.play('A', true);
+        this.player2.flipX = true;
+        });
+
+        this.input.keyboard.on('keydown_D', () => {
+            this.player2.setVelocityX(160);
+    
+            this.player2.anims.play('d', true);
+            this.player2.flipX = false;
+            
+        })       
+
+        this.input.keyboard.on('keydown_S', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('s', true);
+            this.player2.setVelocityY(1200);
+        })
+        this.input.keyboard.on('keydown_Z', () => {
+
+            if (this.player2.body.touching.down) {
+                this.player2.setVelocityY(-630);
+                this.player2.anims.play('z', true);
+            }   
+        })
+        this.input.keyboard.on('keydown_R', () => {
+            this.physics.collide(this.player1, this.player2, this.damageTaken2, null, this)
+            this.player2.anims.play('space2', true);
+        }) 
+        //KeyUp
+
+        this.input.keyboard.on('keyup_Q', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');     
+        });
+
+        this.input.keyboard.on('keyup_D', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');
+        })       
+
+        this.input.keyboard.on('keyup_S', () => {
+            this.player2.setVelocityX(0);
+            this.player2.anims.play('turn2');    
+        })
+        
+        this.input.keyboard.on('keyup_R', () => {
+            
+            this.player2.anims.play('turn2', true)
+        }) 
+            
+        
+        //Collision entre les deux joueurs
+
+        //this.game.physics.arcade.collide(this.player1, this.player2, this.damageTaken);
+    }
+    // KEY TEST 
+
+    damageTaken() {
+        this.player2.health -= 1;
+        console.log(this.player2.health);
+        this.player2.body.reset(100,100);
+    }
+
+    damageTaken2() {
+        this.player1.health -= 1;
+        console.log(this.player1.health);
+        this.player1.body.reset(100,100);
+    }
