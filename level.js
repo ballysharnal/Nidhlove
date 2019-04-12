@@ -147,5 +147,8 @@ class Level extends Phaser.Scene {
     damageTaken() {
         this.player2.health -= 1;
         console.log(this.player2.health);
+        if (this.player2.health <= 0) {
+            this.player2.body.reset(100,100);
+        }
     }
 };
